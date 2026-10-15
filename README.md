@@ -29,9 +29,14 @@ Environment variables can be provided in two ways:
 
 ### Environment Variables
 
-- `DATABASE_URL` (required unless individual variables are set) : PostgreSQL connection URL (e.g., `postgresql://user:password@localhost:5432/dbname`)
-  - Alternatively, you can use individual variables: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PWD`
+- `DB_HOST` (required) : PostgreSQL server host (e.g., `localhost`)
+- `DB_PORT` (required) : PostgreSQL server port (e.g., `5432`)
+- `DB_NAME` (required) : Database name
+- `DB_USERNAME` (required) : Database user
+- `DB_PWD` (required) : Database password
 - `ALLOW_WRITE_OPS` (optional) : Set to `true` to allow write operations (INSERT, UPDATE, DELETE). Default: `false` (read-only mode)
+
+> `DATABASE_URL` is still supported as an alternative (it takes precedence when set), but the individual `DB_*` variables are the recommended configuration.
 
 #### SSL/TLS Certificate Configuration (optional)
 
@@ -45,7 +50,11 @@ For secure connections with SSL certificates:
 **Example `.env` file (manual runs only):**
 
 ```bash
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=mydb
+DB_USERNAME=readonly_user
+DB_PWD=password
 ALLOW_WRITE_OPS=false
 PATH_TO_CA=/path/to/ca.crt
 PATH_TO_CLIENT_CERTIFICATE=/path/to/client.crt
@@ -66,7 +75,11 @@ In your MCP configuration (e.g., `~/.cursor/mcp.json` or similar):
       "command": "bun",
       "args": ["/path/to/postgres-mcp/index.ts"],
       "env": {
-        "DATABASE_URL": "postgresql://readonly_user:password@localhost:5432/mydb",
+        "DB_HOST": "localhost",
+        "DB_PORT": "5432",
+        "DB_NAME": "mydb",
+        "DB_USERNAME": "readonly_user",
+        "DB_PWD": "password",
         "ALLOW_WRITE_OPS": "false"
       }
     }
@@ -83,7 +96,11 @@ In your MCP configuration (e.g., `~/.cursor/mcp.json` or similar):
       "command": "bun",
       "args": ["/path/to/postgres-mcp/index.ts"],
       "env": {
-        "DATABASE_URL": "postgresql://readonly_user:password@localhost:5432/mydb",
+        "DB_HOST": "localhost",
+        "DB_PORT": "5432",
+        "DB_NAME": "mydb",
+        "DB_USERNAME": "readonly_user",
+        "DB_PWD": "password",
         "ALLOW_WRITE_OPS": "false",
         "PATH_TO_CA": "/path/to/ca.crt",
         "PATH_TO_CLIENT_CERTIFICATE": "/path/to/client.crt",
